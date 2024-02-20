@@ -1,0 +1,178 @@
+<template>
+  <div class="worker-detail">
+    <div class="worker-detail__hero flex">
+      <div class="w-8/12 pr-2">
+        <div class="worker-detail__poster min-h-56 flex rounded-3xl bg-black bg-cover">
+          <div class="worker-detail__left pl-6 flex items-center">
+            <div class="worker-detail__avatar">
+              <img class="verify-img" src="@/assets/image/verify.png" alt="" />
+              <img
+                class="w-full h-full object-cover avatar-img"
+                src="@/assets/image/avatar.jpg"
+                alt="avatar"
+              />
+            </div>
+            <div class="worker-detail__name pl-5">
+              <div class="fname text-xl">{{ oneWorker.firstName }}</div>
+              <div class="lname text-xl">{{ oneWorker.lastName }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="work-detail__addcotton mt-10">
+          <form
+            @submit.prevent=""
+            @keypress.enter="add()"
+            class="flex justify-between items-center"
+          >
+            <div class="w-6/12">
+              <label for="kg" class="block font-medium text-lg"
+                >Paxtani kilogrami:
+                <span v-if="residArray[0]" v-for="item of residArray">{{ item }} - </span>
+                <i v-if="residArray[0]" @click="removeKg()" class="bx bx-x text-white rounded bg-gray-500"></i>
+              </label>
+              <input
+                type="number"
+                id="kg"
+                v-model="cotton.kg"
+                placeholder="kg"
+                :class="`${
+                  validFirst
+                    ? 'font-semibold border-2 w-full border-red-700 px-3 py-2 mt-2 rounded-lg shadow-lg'
+                    : 'font-semibold border w-full border-gray-300 px-3 py-2 mt-2 rounded-lg shadow-lg focus:border-indigo-500'
+                }`"
+              />
+              <div
+                :class="`${
+                  warningFirst ? 'warning pt-2 text-red-500' : 'pt-2 opacity-0'
+                }`"
+              >
+                <span>{{ warningFirst ? warningFirst : "P" }}</span>
+              </div>
+            </div>
+            <div :class="`${residAll > 0 ? '' : 'opacity-0'}`">
+              <span class="text-3xl">{{ residAll }}</span>
+            </div>
+            <div class="shadow-lg">
+              <button
+                @click="addResid()"
+                class="btn py-1 font-medium px-5 rounded bg bg-rose-500 shadow-lg hover:bg-rose-400 text-white"
+              >
+                <i class="bx bx-plus text-3xl"></i>
+              </button>
+            </div>
+            <div></div>
+            <div class="shadow-lg">
+              <button
+                @click="add()"
+                class="btn py-2 font-medium px-5 rounded bg-violet-500 shadow-lg hover:bg-violet-400 text-white"
+              >
+                Kiritish
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="w-4/12">Kalendar</div>
+    </div>
+    <div class="worker-detail__main">
+      <workerDetailTable/>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import workerDetailTable from "@/dashboard/components/table/worker-detailTable.vue";
+
+const { id } = useRoute().params;
+const oneWorker = ref({});
+
+import { useWorkersStore } from "@/stores/data/workers/workers";
+import { useWorkerHistory } from "@/stores/data/workers/workerHistory";
+const { get_worker } = useWorkersStore();
+const { new_workerHistory } = useWorkerHistory()
+
+const cotton = ref({});
+
+const validFirst = ref(false);
+const warningFirst = ref("");
+
+const handleClose = () => {
+  cotton.value = {};
+  validFirst.value = false;
+  warningFirst.value = "";
+};
+
+const residArray = ref([]);
+const residAll = ref(0);
+const addResid = () => {
+  if (cotton.value.kg) {
+    if (cotton.value.kg > 0) {
+      validFirst.value = false;
+    } else
+      (validFirst.value = true),
+        (warningFirst.value = "Yozgan soningiz 0 dan katta bo'lsin");
+  } else
+    (validFirst.value = true),
+      (warningFirst.value = "Paxtani kilogramini kiriting");
+
+  if (!validFirst.value) {
+    residArray.value = [...residArray.value, cotton.value.kg];
+    residAll.value += cotton.value.kg;
+    handleClose();
+  }
+};
+const removeKg = () => {
+  let endKg = residArray.value.length - 1
+  residAll.value -= residArray.value[endKg]
+  residArray.value.pop()
+}
+
+const add = () => {
+  if (residAll.value > 0) {
+    new_workerHistory(id, {kg: residAll.value, money: false, date: new Date() })
+    console.log();
+    (residArray.value = []), (residAll.value = 0);
+    handleClose();
+  } else {
+    warningFirst.value = "Kg larni qo'shing";
+  }
+};
+
+onMounted(async () => {
+  await get_worker(id).then((res) => {
+    oneWorker.value = { ...res.data };
+  });
+});
+</script>
+
+<style lang="scss" scoped>
+.worker-detail {
+  &__poster {
+    color: #fff;
+    background-image: url("@/assets/image/cotton-poster.jpg");
+    background-repeat: no-repeat;
+    background-position: 180px -90px;
+  }
+  &__avatar {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    border-radius: 50%;
+    box-shadow: 0px 2px 15px #fff;
+    .avatar-img {
+      border-radius: 50%;
+    }
+    .verify-img {
+      width: 25px;
+      position: absolute;
+      bottom: 0px;
+      right: 15px;
+    }
+  }
+  &__name {
+    text-transform: capitalize;
+  }
+}
+</style>
