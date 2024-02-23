@@ -1,5 +1,5 @@
 <template>
-  <table v-if="openWorkers" class="table-auto w-full">
+  <table v-if="Array.isArray(openWorkers) && openWorkers.length > 0" class="table-auto w-full">
     <thead class="border-b border-zinc-400 text-left">
       <tr>
         <th>#</th>
@@ -39,6 +39,9 @@
       </tr>
     </tbody>
   </table>
+  <div v-else>
+    salom
+  </div>
 </template>
 
 <script setup>

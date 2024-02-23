@@ -1,6 +1,3 @@
-<script setup>
-import sidebarVue from "@/dashboard/components/sidebar/sidebar.vue";
-</script>
 <template>
   <div class="dashboard mx-auto flex">
     <div class="dashboard__sidebar w-80 flex flex-col justify-between">
@@ -25,10 +22,14 @@ import sidebarVue from "@/dashboard/components/sidebar/sidebar.vue";
     </div>
   </div>
   <div class="square">
-      <div class="box box-1"></div>
-      <div class="box box-2"></div>
+    <div class="box box-1"></div>
+    <div class="box box-2"></div>
   </div>
 </template>
+
+<script setup>
+import sidebarVue from "@/dashboard/components/sidebar/sidebar.vue";
+</script>
 
 <style lang="scss" scoped>
 .dashboard {
@@ -92,5 +93,5 @@ import sidebarVue from "@/dashboard/components/sidebar/sidebar.vue";
     right: 30px;
     background-color: #f9a8d4;
   }
-}        
+}
 </style>

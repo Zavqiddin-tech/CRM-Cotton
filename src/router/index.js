@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import {dashboardMenu} from './menu'
+import { useAuthStore } from '@/stores/admin/auth/auth'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,7 +10,6 @@ const router = createRouter({
         path: '/',
         redirect: '/dashboard',
         component: () => import('@/layout/dashboard.vue'),
-        meta: {secure: true},
           children: [
             ...dashboardMenu,
             {
@@ -17,8 +18,23 @@ const router = createRouter({
               meta: {secure: true}
             }
           ]
+      },
+      {
+        path: '/login',
+        name: 'login',
+        component: ()=> import('@/layout/auth.vue')
       }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.secure) {
+    useAuthStore().checkUser()
+    next()
+  }
+  next()
+})
+
+
 
 export default router

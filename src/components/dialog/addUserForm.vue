@@ -142,7 +142,7 @@ const add = () => {
   } else validLast.value = true, warningLast.value = "Familiya maydonini kiriting"
 
   if (!validFirst.value && !validLast.value) {
-    new_worker({...person.value, date: new Date()})
+    new_worker({...person.value, date: new Date(), verify: false})
     handleClose()
   }
 };
