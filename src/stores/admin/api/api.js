@@ -16,7 +16,7 @@ export const useApiStore = defineStore("api", () => {
     return axios
       .get(`${url.value}/${payload.url}`,
       {
-        ...tokenStore.header
+        params: {token: tokenStore.token}
       })
       .catch((e) => {
         if (e.response.status == 401) {
@@ -36,7 +36,7 @@ export const useApiStore = defineStore("api", () => {
   const postAxios = (payload) => {
     return axios
       .post(`${url.value}/${payload.url}`, payload.data, {
-        ...tokenStore.header
+        params: {token: tokenStore.token}
       })
       .catch((e) => {
         if (e.response.status == 401) {
@@ -52,13 +52,19 @@ export const useApiStore = defineStore("api", () => {
   };
 
   const putAxios = (payload) => {
-    return axios.put(`${url.value}/${payload.url}`, payload.data).catch((e) => {
+    return axios.put(`${url.value}/${payload.url}`, payload.data , {
+      params: {token: tokenStore.token}
+    })
+    .catch((e) => {
       console.log(e.message);
     });
   };
 
   const deleteAxios = (payload) => {
-    return axios.delete(`${url.value}/${payload.url}`).catch((e) => {
+    return axios.delete(`${url.value}/${payload.url}`, {
+      params: {token: tokenStore.token}
+    })
+    .catch((e) => {
       console.log(e.message);
     });
   };

@@ -14,8 +14,8 @@
         <i v-if="messageBox.type == 'error'" class='bx bx-error-circle' ></i>
       </div>
       <div class="w-10/12">
-        <div class="text-lg font-semibold">{{ messageBox.title }}</div>
-        <div class="font-md">{{ messageBox.text }}</div>
+        <div class="text-lg text-black font-semibold">{{ messageBox.title }}</div>
+        <div class="font-md text-black">{{ messageBox.text }}</div>
       </div>
     </div>
 

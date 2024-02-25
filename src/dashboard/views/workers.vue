@@ -3,7 +3,7 @@
     <addUserForm />
     <div class="workers-nav flex items-center justify-between">
       <div class="text-2xl">Workers</div>
-      <div class="mr-10 shadow-lg">
+      <div class="shadow-lg">
         <button
           @click="open()"
           class="btn py-2 font-medium px-5 rounded bg-violet-400 hover:bg-violet-300 text-white"
@@ -12,9 +12,7 @@
         </button>
       </div>
     </div>
-    <div class="workers-table mt-10">
       <workersTable />
-    </div>
   </div>
 </template>
 

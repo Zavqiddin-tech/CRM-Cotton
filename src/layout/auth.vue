@@ -1,5 +1,6 @@
 <template>
   <div class="auth">
+    <alertVue />
     <form @submit.prevent="" class="auth-form px-4 py-2 rounded-md">
       <div class="title text-center text-2xl font-semibold">Kirish</div>
       <div>
@@ -33,6 +34,7 @@
 
 <script setup>
 import { ref } from "vue";
+import alertVue from "@/components/alert/alert.vue";
 import { useAuthStore } from "@/stores/admin/auth/auth";
 import { useAnimStore } from "@/stores/animation/anim";
 const { setMessageBox } = useAnimStore();
@@ -65,6 +67,8 @@ const submit = () => {
   align-items: center;
   background-color: #183642;
   color: #fff;
+  position: relative;
+  overflow: hidden;
   &-form {
     width: 300px;
     background-color: #fff;

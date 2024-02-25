@@ -45,7 +45,7 @@ export const useWorkersStore = defineStore("workers", () => {
   const update_worker = async (data) => {
     await api
       .putAxios({
-        url: "workers",
+        url: `workers/${data._id}`,
         data,
       })
       .then((res) => {

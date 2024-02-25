@@ -2,9 +2,11 @@
   <div class="sidebar">
     <div class="sidebar-hero flex items-center gap-3">
       <div class="logo">
-        <i class="bx bxl-xing text-violet-500"></i>
+        <i class="bx bxl-xing text-violet-400"></i>
       </div>
-      <div class="logo-title">Cotton<span class="text-violet-500 font-bold">Farm</span></div>
+      <div class="logo-title text-white">
+        Cotton<span class="text-violet-300 font-bold">Farm</span>
+      </div>
     </div>
     <div class="menu flex flex-col gap-4">
       <router-link
@@ -35,7 +37,6 @@ import { dashboardMenu } from "@/router/menu";
     }
     &-title {
       font-size: 25px;
-      color: #333;
     }
   }
 }
@@ -57,6 +58,19 @@ import { dashboardMenu } from "@/router/menu";
     &:focus {
       background-color: rgba(0, 0, 0, 0.171);
     }
+  }
+}
+
+@media (max-width: 940px) {
+  .sidebar-hero {
+    .logo {
+      &-title {
+        display: none;
+      }
+    }
+  }
+  .menu-text {
+    display: none;
   }
 }
 </style>

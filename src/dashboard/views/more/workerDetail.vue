@@ -2,10 +2,11 @@
   <div class="worker-detail">
     <div class="worker-detail__hero flex">
       <div class="w-8/12 pr-2">
-        <div class="worker-detail__poster min-h-56 flex rounded-3xl bg-black bg-cover">
+        <div
+          class="worker-detail__poster min-h-56 flex rounded-3xl bg-white bg-opacity-20"
+        >
           <div class="worker-detail__left pl-6 flex items-center">
             <div class="worker-detail__avatar">
-              <img class="verify-img" src="@/assets/image/verify.png" alt="" />
               <img
                 class="w-full h-full object-cover avatar-img"
                 src="@/assets/image/avatar.jpg"
@@ -27,8 +28,14 @@
             <div class="w-6/12">
               <label for="kg" class="block font-medium text-lg"
                 >Paxtani kilogrami:
-                <span v-if="residArray[0]" v-for="item of residArray">{{ item }} - </span>
-                <i v-if="residArray[0]" @click="removeKg()" class="bx bx-x text-white rounded bg-gray-500"></i>
+                <span v-if="residArray[0]" v-for="item of residArray"
+                  >{{ item }} -
+                </span>
+                <i
+                  v-if="residArray[0]"
+                  @click="removeKg()"
+                  class="bx bx-x text-white rounded bg-gray-500"
+                ></i>
               </label>
               <input
                 type="number"
@@ -43,7 +50,7 @@
               />
               <div
                 :class="`${
-                  warningFirst ? 'warning pt-2 text-red-500' : 'pt-2 opacity-0'
+                  warningFirst ? 'warning pt-2 text-white' : 'pt-2 opacity-0'
                 }`"
               >
                 <span>{{ warningFirst ? warningFirst : "P" }}</span>
@@ -74,8 +81,8 @@
       </div>
       <div class="w-4/12">Kalendar</div>
     </div>
-    <div class="worker-detail__main">
-      <workerDetailTable/>
+    <div class="worker-detail__main px-3 rounded bg-white bg-opacity-10">
+      <workerDetailTable />
     </div>
   </div>
 </template>
@@ -91,7 +98,7 @@ const oneWorker = ref({});
 import { useWorkersStore } from "@/stores/data/workers/workers";
 import { useWorkerHistory } from "@/stores/data/workers/workerHistory";
 const { get_worker } = useWorkersStore();
-const { new_workerHistory } = useWorkerHistory()
+const { new_workerHistory } = useWorkerHistory();
 
 const cotton = ref({});
 
@@ -124,14 +131,18 @@ const addResid = () => {
   }
 };
 const removeKg = () => {
-  let endKg = residArray.value.length - 1
-  residAll.value -= residArray.value[endKg]
-  residArray.value.pop()
-}
+  let endKg = residArray.value.length - 1;
+  residAll.value -= residArray.value[endKg];
+  residArray.value.pop();
+};
 
 const add = () => {
   if (residAll.value > 0) {
-    new_workerHistory(id, {kg: residAll.value, money: false, date: new Date() })
+    new_workerHistory(id, {
+      kg: residAll.value,
+      money: false,
+      date: new Date(),
+    });
     console.log();
     (residArray.value = []), (residAll.value = 0);
     handleClose();
@@ -151,9 +162,6 @@ onMounted(async () => {
 .worker-detail {
   &__poster {
     color: #fff;
-    background-image: url("@/assets/image/cotton-poster.jpg");
-    background-repeat: no-repeat;
-    background-position: 180px -90px;
   }
   &__avatar {
     width: 150px;
@@ -173,6 +181,9 @@ onMounted(async () => {
   }
   &__name {
     text-transform: capitalize;
+  }
+  input {
+    color: #333;
   }
 }
 </style>

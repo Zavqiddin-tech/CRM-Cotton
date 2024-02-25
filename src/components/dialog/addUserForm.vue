@@ -38,7 +38,7 @@
                       >Ishchi qo'shish</DialogTitle
                     >
                     <div class="mt-2">
-                      <form @submit.prevent="add()"  @keypress.enter="add()">
+                      <form @submit.prevent="add()" @keypress.enter="add()">
                         <label
                           for="firstName"
                           class="block mt-5 text-lg font-medium text-gray-700"
@@ -48,10 +48,19 @@
                           <input
                             type="text"
                             id="firstName"
-                            :class="`${validFirst ? 'border-2 w-full border-red-700 px-3 py-2 rounded-lg shadow-lg' : 'border w-full border-gray-300 px-3 py-2 rounded-lg shadow-lg focus:border-indigo-500 focus:ring'}`"
+                            :class="`${
+                              validFirst
+                                ? 'border-2 w-full border-red-700 px-3 py-2 rounded-lg shadow-lg'
+                                : 'border w-full border-gray-300 px-3 py-2 rounded-lg shadow-lg focus:border-indigo-500 focus:ring'
+                            }`"
                             v-model="person.firstName"
                           />
-                          <div v-if="validFirst" class="valid-text text-red-500">{{ warningFirst }}</div>
+                          <div
+                            v-if="validFirst"
+                            class="valid-text text-red-500"
+                          >
+                            {{ warningFirst }}
+                          </div>
                         </div>
                         <label
                           for="lastName"
@@ -62,10 +71,16 @@
                           <input
                             type="text"
                             id="lastName"
-                            :class="`${validLast ? 'border-2 w-full border-red-700 px-3 py-2 rounded-lg shadow-lg' : 'border w-full border-gray-300 px-3 py-2 rounded-lg shadow-lg focus:border-indigo-500 focus:ring'}`"
+                            :class="`${
+                              validLast
+                                ? 'border-2 w-full border-red-700 px-3 py-2 rounded-lg shadow-lg'
+                                : 'border w-full border-gray-300 px-3 py-2 rounded-lg shadow-lg focus:border-indigo-500 focus:ring'
+                            }`"
                             v-model="person.lastName"
                           />
-                          <div v-if="validLast" class="valid-text text-red-500">{{ warningLast }}</div>
+                          <div v-if="validLast" class="valid-text text-red-500">
+                            {{ warningLast }}
+                          </div>
                         </div>
                       </form>
                     </div>
@@ -95,7 +110,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 
 import {
@@ -107,47 +122,68 @@ import {
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 
-
 // Store
 import { useDialogToggle } from "@/stores/dialog/dialogToggle.js";
 import { useWorkersStore } from "@/stores/data/workers/workers";
-const { formToggle } = storeToRefs(useDialogToggle());
-const { setFormToggle } = useDialogToggle();
-const {new_worker}= useWorkersStore()
+const { formToggle, editFormToggle, editId } = storeToRefs(useDialogToggle());
+const { setFormToggle, setEditFormToggle, setEditId } = useDialogToggle();
+const { new_worker, get_worker, update_worker } = useWorkersStore();
 
-const validFirst = ref(false)
-const warningFirst = ref('')
-const validLast = ref(false)
-const warningLast = ref('')
+const validFirst = ref(false);
+const warningFirst = ref("");
+const validLast = ref(false);
+const warningLast = ref("");
+
 const person = ref({});
 
 const handleClose = () => {
   setFormToggle(false);
+  setEditFormToggle(false);
+  setEditId("");
   person.value = {};
-  validFirst.value = false
-  validLast.value = false
+  validFirst.value = false;
+  validLast.value = false;
 };
+
+// Edit
+watch(editFormToggle, async () => {
+  if (editFormToggle.value) {
+    await get_worker(editId.value).then((res) => {
+      person.value = { ...res.data };
+    });
+  }
+});
 
 const add = () => {
   if (person.value.firstName) {
     if (person.value.firstName.length >= 4) {
-      validFirst.value = false
-    } else validFirst.value = true, warningFirst.value = "Kamida 4 ta harf bo'sin"
-  } else validFirst.value = true, warningFirst.value = "Ism maydonini kiriting"
+      validFirst.value = false;
+    } else
+      (validFirst.value = true),
+        (warningFirst.value = "Kamida 4 ta harf bo'sin");
+  } else
+    (validFirst.value = true), (warningFirst.value = "Ism maydonini kiriting");
 
   if (person.value.lastName) {
     if (person.value.lastName.length >= 4) {
-      validLast.value = false
-    } else validLast.value = true, warningLast.value = "Kamida 4 ta harf bo'sin"
-  } else validLast.value = true, warningLast.value = "Familiya maydonini kiriting"
+      validLast.value = false;
+    } else
+      (validLast.value = true), (warningLast.value = "Kamida 4 ta harf bo'sin");
+  } else
+    (validLast.value = true),
+      (warningLast.value = "Familiya maydonini kiriting");
 
   if (!validFirst.value && !validLast.value) {
-    new_worker({...person.value, date: new Date(), verify: false})
-    handleClose()
+    if (editFormToggle.value) {
+      console.log(person.value);
+      update_worker(person.value);
+      handleClose();
+    } else {
+      new_worker({ ...person.value, date: new Date(), verify: false });
+      handleClose();
+    }
   }
 };
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

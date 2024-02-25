@@ -34,7 +34,6 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const checkUser = async () => {
-    console.log(tokenStore.header);
     if (cookies.isKey('cotton-token')) {
         tokenStore.setToken(cookies.get('cotton-token'))
     }

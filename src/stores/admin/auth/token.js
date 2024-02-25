@@ -7,7 +7,6 @@ export const useTokenStore = defineStore('token', ()=> {
     const header = ref({})
 
     const setToken = (payload)=> {
-        console.log(payload);
         cookies.set('cotton-token', payload)
         token.value = payload
         header.value = {
