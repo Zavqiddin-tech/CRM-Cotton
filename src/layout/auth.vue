@@ -1,6 +1,5 @@
 <template>
   <div class="auth">
-    <alertVue />
     <form @submit.prevent="" class="auth-form px-4 py-2 rounded-md">
       <div class="title text-center text-2xl font-semibold">Kirish</div>
       <div>
@@ -34,10 +33,7 @@
 
 <script setup>
 import { ref } from "vue";
-import alertVue from "@/components/alert/alert.vue";
 import { useAuthStore } from "@/stores/admin/auth/auth";
-import { useAnimStore } from "@/stores/animation/anim";
-const { setMessageBox } = useAnimStore();
 
 const { login } = useAuthStore();
 
@@ -47,12 +43,7 @@ const submit = () => {
   if (user.value.email && user.value.password) {
     login(user.value);
   } else {
-    setMessageBox({
-      toggle: true,
-      type: "warning",
-      title: "Warning",
-      text: "Barcha maydonni to'ldiring",
-    });
+    alert("Barcha maydonni to'ldiring")
     return false;
   }
 };

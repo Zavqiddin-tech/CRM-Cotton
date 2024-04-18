@@ -4,14 +4,12 @@ import { useApiStore } from "@/stores/admin/api/api";
 import { useTokenStore } from "@/stores/admin/auth/token";
 import cookies from "vue-cookies";
 import router from "@/router";
-import { useAnimStore } from "@/stores/animation/anim";
 
 
 
 export const useAuthStore = defineStore("auth", () => {
   const api = useApiStore();
   const tokenStore = useTokenStore()
-  const { setMessageBox } = useAnimStore();
   
   const login = async (data) => {
     await api
@@ -20,15 +18,12 @@ export const useAuthStore = defineStore("auth", () => {
         data,
       })
       .then((res) => {
+        console.log(res.data);
         if (res.data.token) {
           tokenStore.setToken(res.data.token)
+          tokenStore.setUser(res.data.user)
           router.push('/dashboard')
-          setMessageBox({
-            toggle: true,
-            type: "success",
-            title: "Xush kelibsiz",
-            text: "tizimga kirildi",
-          });
+
         }
       });
   };

@@ -38,7 +38,11 @@
                       >Ishchi qo'shish</DialogTitle
                     >
                     <div class="mt-2">
-                      <form @submit.prevent="add()" @keypress.enter="add()">
+                      <form
+                        @submit.prevent="add()"
+                        @keypress.enter="add()"
+                        enctype="multipart/form-data"
+                      >
                         <label
                           for="firstName"
                           class="block mt-5 text-lg font-medium text-gray-700"
@@ -82,12 +86,36 @@
                             {{ warningLast }}
                           </div>
                         </div>
+                        <div
+                          class="mt-5 p-5 pb-1 rounded-md border border-indigo-500"
+                        >
+                          <label for="file" class="cursor-pointer"
+                            >Rasm
+                            <span class="font-bold text-violet-500"
+                              >yuklang...</span
+                            ></label
+                          >
+                          <input
+                            type="file"
+                            @change="handleChange"
+                            class="opacity-0 absolute"
+                            name="file"
+                            id="file"
+                          />
+                          <div class="avatar-img flex justify-end">
+                            <img
+                              class="w-20 h-20 object-cover rounded-full"
+                              :src="`${url}/uploads/${person.img}`"
+                              alt=""
+                            />
+                          </div>
+                        </div>
                       </form>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="px-4 py-3 flex justify-center gap-20">
+              <div class="px-4 py-3 flex justify-end gap-20">
                 <button
                   class="btn py-2 px-5 rounded bg-rose-500 shadow-lg hover:bg-rose-400 text-white"
                   @click="handleClose()"
@@ -123,8 +151,10 @@ import {
 import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 
 // Store
+import { useUrlStore } from "@/stores/admin/api/url";
 import { useDialogToggle } from "@/stores/dialog/dialogToggle.js";
 import { useWorkersStore } from "@/stores/data/workers/workers";
+const { url } = storeToRefs(useUrlStore());
 const { formToggle, editFormToggle, editId } = storeToRefs(useDialogToggle());
 const { setFormToggle, setEditFormToggle, setEditId } = useDialogToggle();
 const { new_worker, get_worker, update_worker } = useWorkersStore();
@@ -135,7 +165,11 @@ const validLast = ref(false);
 const warningLast = ref("");
 
 const person = ref({});
-
+const avatar = ref({});
+const handleChange = (val) => {
+  console.log(val);
+  avatar.value = val.target.files[0];
+};
 const handleClose = () => {
   setFormToggle(false);
   setEditFormToggle(false);
@@ -175,15 +209,26 @@ const add = () => {
 
   if (!validFirst.value && !validLast.value) {
     if (editFormToggle.value) {
-      console.log(person.value);
-      update_worker(person.value);
+      if (avatar.value.name) {
+        update_worker({ ...person.value, file: avatar.value });
+        handleClose();
+        return false;
+      }
+      update_worker({ ...person.value });
       handleClose();
     } else {
-      new_worker({ ...person.value, date: new Date(), verify: false });
+      new_worker({
+        ...person.value,
+        file: avatar.value,
+        img: "",
+        user: "",
+        verify: false,
+        date: new Date(),
+      });
       handleClose();
     }
   }
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped></style>

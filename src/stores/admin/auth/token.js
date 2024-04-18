@@ -11,13 +11,18 @@ export const useTokenStore = defineStore('token', ()=> {
         token.value = payload
         header.value = {
             headers: {
-                'authorization': `Bearor ${payload}`,
+                'authorization': `Bearor ${payload.token}`,
               },
         }
+    }
+    
+    const setUser = (payload) => {
+        cookies.set('cotton-user', payload)
     }
 
     return {
         token,
         setToken,
+        setUser
     }
 })

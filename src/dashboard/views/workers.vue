@@ -18,7 +18,6 @@
 
 <script setup>
 import { onMounted } from "vue";
-import { storeToRefs } from "pinia";
 import addUserForm from "@/components/dialog/addUserForm.vue";
 import workersTable from "@/dashboard/components/table/workers-table.vue";
 

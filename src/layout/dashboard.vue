@@ -1,9 +1,8 @@
 <template>
   <div class="dashboard mx-auto flex">
-    <alertVue />
     <div class="dashboard__sidebar flex flex-col justify-between">
       <sidebarVue />
-      <!-- <div class="menu-bottom flex flex-col gap-3">
+      <div class="menu-bottom flex flex-col gap-3">
         <div class="menu-bottom__item flex items-center gap-2">
           <i class="bx bx-info-square"></i>
           <div class="menu-bottom__text">Contact support</div>
@@ -12,34 +11,59 @@
           <i class="bx bx-cog"></i>
           <div class="menu-bottom__text">Settings</div>
         </div>
-        <div class="menu-bottom__item flex items-center gap-2">
+        <div @click="logout()" class="menu-bottom__item flex items-center gap-2">
           <i class="bx bx-log-in"></i>
           <div class="menu-bottom__text">Log out</div>
         </div>
-      </div> -->
+      </div>
     </div>
     <div class="dashboard__content">
-      <div class="dashboard__nav max max-w-full pb-5 flex justify-end items-center gap-10">
-        <input type="text" class="dashboard__input w-80 rounded-3xl px-3 py-2" placeholder="Qidiriv">
-        <div class="akkaunt flex justify-center items-center text-xl text-white font-bold bg-blue-400">Z</div>
+      <div
+        class="dashboard__nav max max-w-full pb-5 flex justify-end items-center gap-10"
+      >
+        <input
+          type="text"
+          class="dashboard__input w-80 rounded-3xl px-3 py-2"
+          placeholder="Qidiriv"
+        />
+        <div
+          class="akkaunt flex justify-center items-center text-xl text-white font-bold bg-blue-400"
+        >
+          {{ cookies.get('cotton-user')[0].toUpperCase() }}
+        </div>
       </div>
       <router-view />
     </div>
   </div>
-  <div class="square"></div>
+  <div class="square">
+    <div class="box box-1"></div>
+    <div class="box box-2"></div>
+  </div>
 </template>
 
 <script setup>
+import { ref } from "vue";
 import sidebarVue from "@/dashboard/components/sidebar/sidebar.vue";
-import alertVue from "@/components/alert/alert.vue";
+import cookies from "vue-cookies";
+
+import {useAuthStore} from "@/stores/admin/auth/auth"
+const {checkUser} = useAuthStore()
+
+const logout = () => {
+  if (confirm("Tizimdan chiqish ❗")) {
+    cookies.remove("cotton-token");
+    checkUser();
+    location.reload();
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 .dashboard {
   max-width: 1600px;
   position: relative;
-  backdrop-filter: blur(10px);
-  color: #fff;
+  backdrop-filter: blur(20px);
+  color: #333;
   z-index: 1;
   &__nav {
     .akkaunt {
@@ -50,6 +74,7 @@ import alertVue from "@/components/alert/alert.vue";
     }
   }
   &__sidebar {
+    width: 230px;
     height: 100vh;
     padding: 20px;
     position: sticky;
@@ -73,7 +98,7 @@ import alertVue from "@/components/alert/alert.vue";
     }
   }
   &__content {
-    width: calc(100% - 90px);
+    width: calc(100% - 230px);
     padding: 20px;
   }
   &__input {
@@ -86,7 +111,7 @@ import alertVue from "@/components/alert/alert.vue";
 }
 .square {
   width: 100%;
-  max-width: 100%;
+  max-width: 1600px;
   height: 100vh;
   position: fixed;
   margin: auto;
@@ -95,7 +120,43 @@ import alertVue from "@/components/alert/alert.vue";
   z-index: 1;
   transform: translate(-50%);
   z-index: -1;
-  background-image: url('@/assets/image/abstrack.jpg') ;
-  background-size: cover;
+  .box {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    position: absolute;
+  }
+  .box-1 {
+    top: 500px;
+    left: 30px;
+    background-color: #67e8f9;
+  }
+  .box-2 {
+    top: 200px;
+    right: 30px;
+    background-color: #f9a8d4;
+  }
+}
+
+
+
+
+
+
+@media (max-width: 940px) {
+  .dashboard {
+    &__sidebar {
+      width: 100px;
+      .menu-bottom {
+      
+      &__text {
+        display: none;
+      }
+    }
+    }
+    &__content {
+      width: calc(100% - 100px);
+    }
+  }
 }
 </style>

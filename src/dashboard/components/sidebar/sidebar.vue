@@ -4,8 +4,8 @@
       <div class="logo">
         <i class="bx bxl-xing text-violet-400"></i>
       </div>
-      <div class="logo-title text-white">
-        Cotton<span class="text-violet-300 font-bold">Farm</span>
+      <div class="logo-title text-black">
+        Cotton<span class="text-violet-400 font-bold">Farm</span>
       </div>
     </div>
     <div class="menu flex flex-col gap-4">
@@ -69,8 +69,10 @@ import { dashboardMenu } from "@/router/menu";
       }
     }
   }
-  .menu-text {
-    display: none;
+  .menu {
+    &-text {
+      display: none;
+    }
   }
 }
 </style>

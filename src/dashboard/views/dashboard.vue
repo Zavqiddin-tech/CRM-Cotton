@@ -1,11 +1,113 @@
 <template>
   <div>
     <h1 class="font-3xl">Dashboard</h1>
+    <div class="cards flex gap-10">
+      <div class="card w-1/3 p-5">
+        <div class="card-top">
+          <i class="text-2xl fa-solid fa-user-group"></i>
+          <div class="card-title text-xl font-medium">Jami ishchi</div>
+        </div>
+        <div class="card-number">
+          <span class="text-3xl font-semibold">{{ workers.length }}</span> ta
+        </div>
+        <img src="@/assets/image/illustration/1.svg" alt="" />
+      </div>
+      <div class="card w-1/3 p-5">
+        <div class="card-top">
+          <i class="text-2xl fa-solid fa-cloud"></i>
+          <div class="card-title text-xl font-medium">Umumiy paxta</div>
+        </div>
+        <div class="card-number">
+          <span class="text-3xl font-semibold">{{ allKg() }}</span> kg
+        </div>
+        <img src="@/assets/image/illustration/2.svg" alt="" />
+      </div>
+      <div class="card w-1/3 p-5">
+        <div class="card-top">
+          <i class="text-2xl fa-solid fa-square-poll-vertical"></i>
+          <div class="card-title text-xl font-medium">Bugungi natija</div>
+        </div>
+        <div class="card-number">
+          <span class="text-3xl font-semibold">{{ todayKg() }}</span> kg
+        </div>
+        <img src="@/assets/image/illustration/3.svg" alt="" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { onMounted } from "vue";
+import { storeToRefs } from "pinia";
+// Store
+import { useWorkersStore } from "@/stores/data/workers/workers";
+const { workers } = storeToRefs(useWorkersStore());
+const { get_all_workers } = useWorkersStore();
 
+const allKg = () => {
+  let max = 0;
+  workers.value.forEach((item) => {
+    if (item.workHistory.length > 0) {
+      item.workHistory.forEach((elem) => {
+        max += elem.kg;
+      });
+    }
+  });
+  return max;
+};
+
+const todayKg = () => {
+  let max = 0;
+  let date = new Date();
+  let year = date.getFullYear();
+  let month = date.getMonth();
+  let day = date.getDate();
+  workers.value.forEach((item) => {
+    if (item.workHistory.length > 0) {
+      item.workHistory.forEach((elem) => {
+        if (
+          new Date(elem.date).getFullYear() == year &&
+          new Date(elem.date).getMonth() == month &&
+          new Date(elem.date).getDate() == day
+        ) {
+          max += elem.kg;
+        }
+      });
+    }
+  });
+
+  return max;
+};
+
+onMounted(() => {
+  get_all_workers();
+});
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.card {
+  min-height: 200px;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: -10px -10px 30px #f1f1f1, 10px 10px 30px #d6d6d6;
+  &-title {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  &-number {
+    position: relative;
+    z-index: 1;
+    span {
+      background: -webkit-linear-gradient(180deg, #ff0000, #000000);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+  img {
+    position: absolute;
+    width: 120px;
+    right: 20px;
+    bottom: 20px;
+  }
+}
+</style>

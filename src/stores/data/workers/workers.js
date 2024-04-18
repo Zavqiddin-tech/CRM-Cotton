@@ -15,22 +15,23 @@ export const useWorkersStore = defineStore("workers", () => {
         url: "workers",
       })
       .then((res) => {
+        console.log(res.data);
         workers.value = [...res.data];
-        openWorkers.value = [...res.data];
+        openWorkers.value = [...res.data]
       });
   };
 
   // Yangi ishchi qo'shish
   const new_worker = async (data) => {
-    console.log(data);
     await api
-      .postAxios({
+      .postAxiosFile({
         url: "workers",
         data,
       })
       .then((res) => {
         workers.value = [res.data, ...workers.value];
         openWorkers.value = [res.data, ...openWorkers.value];
+        
       });
   };
 
@@ -43,8 +44,9 @@ export const useWorkersStore = defineStore("workers", () => {
 
   // Ma'lumotni yangilab saqlash
   const update_worker = async (data) => {
+    console.log(data);
     await api
-      .putAxios({
+      .putAxiosFile({
         url: `workers/${data._id}`,
         data,
       })
