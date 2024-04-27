@@ -63,7 +63,7 @@
             <span
               class="text-md font-medium flex items-center gap-2 whitespace-nowrap"
             >
-              {{ new Date(item.date).toDateString() }}
+              {{ convertDate(item.date, 1) }}
               <i
                 v-if="item.status === 1"
                 class="bx bxs-check-circle text-2xl text-black"
@@ -72,17 +72,7 @@
           </td>
           <td class="min-w-20">
             <span class="text-sm whitespace-nowrap">
-              {{
-                new Date(item.date).getHours() <= 9
-                  ? `0${new Date(item.date).getHours()}`
-                  : `${new Date(item.date).getHours()}`
-              }}
-              :
-              {{
-                new Date(item.date).getMinutes() <= 9
-                  ? `0${new Date(item.date).getMinutes()}`
-                  : `${new Date(item.date).getMinutes()}`
-              }}
+              {{ convertDate(item.date, 3) }}
             </span>
           </td>
           <td class="min-w-20">
@@ -126,6 +116,7 @@
 import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
+import { convertDate } from "@/func/date";
 import { useWorkersStore } from "@/stores/data/workers/workers";
 import { useWorkerHistory } from "@/stores/data/workers/workerHistory";
 const { get_worker } = useWorkersStore();

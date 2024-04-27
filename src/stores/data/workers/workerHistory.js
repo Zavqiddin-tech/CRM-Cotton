@@ -17,7 +17,6 @@ export const useWorkerHistory = defineStore("history", () => {
         data,
       })
       .then((res) => {
-        console.log(res);
         setOneWorker(res.data);
       });
   };
@@ -48,7 +47,7 @@ export const useWorkerHistory = defineStore("history", () => {
     await api
       .putAxios({ url: `workers/worker-verify/${id}`, data })
       .then((res) => {
-        setOneWorker(res.data)
+        console.log(res.data);
       });
   };
 

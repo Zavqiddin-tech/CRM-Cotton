@@ -23,12 +23,14 @@
             {{ index + 1 }}
           </td>
           <td @click="nextPage(item._id)" class="min-w-60 flex items-center">
-            <div class="table-avatar mr-5 shadow-xl">
+            <div class="table-avatar mr-5 shadow-xl flex justify-center items-center">
               <img
+                v-if="item.img"
                 class="w-full h-full object-cover"
                 :src="`${url}/uploads/${item.img}`"
                 alt="image"
               />
+              <i v-else class="bx bx-user text-2xl"></i>
             </div>
             <span class="name font-semibold mr-2"
               >{{ item.firstName }} {{ item.lastName }}</span
@@ -36,23 +38,23 @@
             <img
               v-if="item.verify"
               class="verify"
-              src="@/assets/image/verify.png"
+              src="@/assets/image/w-verify.png"
               alt=""
             />
           </td>
           <td @click="nextPage(item._id)" class="min-w-40">
             <span class="whitespace-nowrap">
-              {{ new Date(item.date).toDateString() }}
+              {{ convertDate(item.date, 1) }}
             </span>
           </td>
-          <td class="min-w-20">
+          <td @click="nextPage(item._id)" class="min-w-20">
             <span
             class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-md font-medium whitespace-nowrap text-green-700 ring-1 ring-inset ring-green-600/20"
               
               >{{ totalWeight(item.workHistory) }} kg</span
             >
           </td>
-          <td class="min-w-20">
+          <td @click="nextPage(item._id)" class="min-w-20">
             <span
             class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-md font-medium whitespace-nowrap text-red-700 ring-1 ring-inset ring-red-600/20"
               >{{ totalPaid(item.workHistory) }} kg</span
@@ -86,6 +88,7 @@ import { storeToRefs } from "pinia";
 import { useUrlStore } from "@/stores/admin/api/url";
 import { useDialogToggle } from "@/stores/dialog/dialogToggle.js";
 import { useWorkersStore } from "@/stores/data/workers/workers";
+import { convertDate } from "@/func/date";
 const {url} = storeToRefs(useUrlStore())
 const { setFormToggle, setEditFormToggle, setEditId } = useDialogToggle();
 const { openWorkers } = storeToRefs(useWorkersStore());

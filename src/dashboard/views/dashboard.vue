@@ -89,7 +89,12 @@ onMounted(() => {
   min-height: 200px;
   position: relative;
   border-radius: 10px;
+  transition: 0.25s;
   box-shadow: -10px -10px 30px #f1f1f1, 10px 10px 30px #d6d6d6;
+  &:hover {
+    transform: translateY(-15px);
+    box-shadow: 0px 10px 30px #7a7a7a;
+  }
   &-title {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -97,11 +102,6 @@ onMounted(() => {
   &-number {
     position: relative;
     z-index: 1;
-    span {
-      background: -webkit-linear-gradient(180deg, #ff0000, #000000);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
   }
   img {
     position: absolute;

@@ -5,16 +5,17 @@
         class="worker-detail__poster min-h-56 flex rounded-3xl overflow-hidden"
       >
         <div class="worker-detail__left pl-6 flex items-center">
-          <div class="worker-detail__avatar">
-            <img
+          <div class="worker-detail__avatar flex justify-center items-center bg-black">
+            <img v-if="worker.img"
               class="w-full h-full object-cover avatar-img"
               :src="`${url}/uploads/${worker.img}`"
               alt="avatar"
             />
+            <i v-else class="bx bx-user text-7xl"></i>
             <img
               v-if="worker.verify"
               class="verify-img"
-              src="@/assets/image/t-verify.png"
+              src="@/assets/image/w-verify.png"
               alt=""
             />
           </div>
@@ -25,9 +26,17 @@
           <div class="worker-verify">
             <button
               @click="verify(worker._id, worker.verify)"
-              class="btn py-1 font-medium px-2 rounded-xl bg-white shadow-lg hover:bg-black hover:text-white text-black"
+              v-if="worker.verify == false"
+              class="btn py-1 px-2 rounded-2xl bg-white bg-opacity-20 hover:text-white text-green-400"
             >
-              <i class="fa-solid fa-fingerprint text-2xl"></i>
+              check
+            </button>
+            <button
+              @click="verify(worker._id, worker.verify)"
+              v-if="worker.verify == true"
+              class="btn py-1 font-medium px-2 rounded-2xl bg-white bg-opacity-20 hover:text-white text-green-400"
+            >
+              <i class="bx bxs-check-shield text-3xl"></i>
             </button>
           </div>
         </div>
@@ -204,7 +213,15 @@ const paid = () => {
   paidHistory(id, payArray.value);
 };
 const verify = (id, verify) => {
-  changeVerify(id, { verify });
+  if (verify) {
+    if (confirm("bekor qilasizmi❗")) {
+      changeVerify(id, { verify });
+    }
+  } else {
+    if (confirm("tasdiqlansin✅")) {
+      changeVerify(id, { verify });
+    }
+  }
 };
 const add = () => {
   if (residAll.value > 0) {

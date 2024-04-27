@@ -15,7 +15,6 @@ export const useWorkersStore = defineStore("workers", () => {
         url: "workers",
       })
       .then((res) => {
-        console.log(res.data);
         workers.value = [...res.data];
         openWorkers.value = [...res.data]
       });
@@ -44,7 +43,6 @@ export const useWorkersStore = defineStore("workers", () => {
 
   // Ma'lumotni yangilab saqlash
   const update_worker = async (data) => {
-    console.log(data);
     await api
       .putAxiosFile({
         url: `workers/${data._id}`,
