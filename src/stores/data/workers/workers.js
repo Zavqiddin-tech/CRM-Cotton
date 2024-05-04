@@ -30,7 +30,6 @@ export const useWorkersStore = defineStore("workers", () => {
       .then((res) => {
         workers.value = [res.data, ...workers.value];
         openWorkers.value = [res.data, ...openWorkers.value];
-        
       });
   };
 
@@ -61,7 +60,7 @@ export const useWorkersStore = defineStore("workers", () => {
   const delete_worker = async (_id) => {
     await api
       .deleteAxios({
-        url: `workers/${_id}`,
+        url: `workers/${_id}`
       })
       .then(() => {
         workers.value = workers.value.filter((item) => {

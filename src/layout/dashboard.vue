@@ -11,7 +11,10 @@
           <i class="bx bx-cog"></i>
           <div class="menu-bottom__text">Settings</div>
         </div>
-        <div @click="logout()" class="menu-bottom__item flex items-center gap-2">
+        <div
+          @click="logout()"
+          class="menu-bottom__item flex items-center gap-2"
+        >
           <i class="bx bx-log-in"></i>
           <div class="menu-bottom__text">Log out</div>
         </div>
@@ -29,25 +32,28 @@
         <div
           class="akkaunt flex justify-center items-center text-xl text-white font-bold bg-blue-400"
         >
-          {{ cookies.get('cotton-user')[0].toUpperCase() }}
+          {{ cookies.get("cotton-user")[0].toUpperCase() }}
         </div>
       </div>
       <router-view />
     </div>
   </div>
   <div class="square">
-    <div class="box box-1"></div>
-    <div class="box box-2"></div>
+    <div class="box box-1">
+      <img class="w-full object-cover" src="@/assets/image/illustration/gr-2.png" alt="" />
+    </div>
+    <div class="box box-2">
+      <img class="w-full object-cover" src="@/assets/image/illustration/gr-1.png" alt="" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import sidebarVue from "@/dashboard/components/sidebar/sidebar.vue";
 import cookies from "vue-cookies";
 
-import {useAuthStore} from "@/stores/admin/auth/auth"
-const {checkUser} = useAuthStore()
+import { useAuthStore } from "@/stores/admin/auth/auth";
+const { checkUser } = useAuthStore();
 
 const logout = () => {
   if (confirm("Tizimdan chiqish ❗")) {
@@ -62,7 +68,6 @@ const logout = () => {
 .dashboard {
   max-width: 1600px;
   position: relative;
-  backdrop-filter: blur(20px);
   color: #333;
   z-index: 1;
   &__nav {
@@ -121,38 +126,28 @@ const logout = () => {
   transform: translate(-50%);
   z-index: -1;
   .box {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
+    width: 450px;
     position: absolute;
   }
   .box-1 {
     top: 500px;
     left: 30px;
-    background-color: #67e8f9;
   }
   .box-2 {
     top: 200px;
     right: 30px;
-    background-color: #f9a8d4;
   }
 }
-
-
-
-
-
 
 @media (max-width: 940px) {
   .dashboard {
     &__sidebar {
       width: 100px;
       .menu-bottom {
-      
-      &__text {
-        display: none;
+        &__text {
+          display: none;
+        }
       }
-    }
     }
     &__content {
       width: calc(100% - 100px);

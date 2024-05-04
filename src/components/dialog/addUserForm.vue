@@ -35,7 +35,9 @@
                 <div class="sm:flex sm:items-start">
                   <div class="mt-3 w-full sm:text-left">
                     <DialogTitle as="h3" class="text-xl text-gray-900"
-                      >Ishchi qo'shish</DialogTitle
+                      ><span>{{
+                        editFormToggle ? "Yangilash" : "Ishchi qo'shish"
+                      }}</span></DialogTitle
                     >
                     <div class="mt-2">
                       <form
@@ -104,8 +106,15 @@
                           />
                           <div class="avatar-img flex justify-end">
                             <img
+                              v-if="person.img"
                               class="w-20 h-20 object-cover rounded-full"
                               :src="`${url}/uploads/${person.img}`"
+                              alt=""
+                            />
+                            <img
+                              v-else
+                              class="w-20 h-20 object-cover"
+                              src="@/assets/image/upload-image.png"
                               alt=""
                             />
                           </div>
@@ -175,8 +184,10 @@ const handleClose = () => {
   setEditFormToggle(false);
   setEditId("");
   person.value = {};
+  avatar.value = {};
   validFirst.value = false;
   validLast.value = false;
+  console.log("kuku");
 };
 
 // Edit

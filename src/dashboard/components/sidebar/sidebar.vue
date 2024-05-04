@@ -6,6 +6,7 @@
       </div>
       <div class="logo-title text-black">
         Cotton<span class="text-violet-400 font-bold">Farm</span>
+        <img class="logo-line" src="@/assets/image/illustration/line-1.svg" alt="">
       </div>
     </div>
     <div class="menu flex flex-col gap-4">
@@ -31,12 +32,17 @@ import { dashboardMenu } from "@/router/menu";
 .sidebar-hero {
   padding-left: 15px;
   padding-bottom: 30px;
+  position: relative;
   .logo {
     i {
       font-size: 35px;
     }
     &-title {
       font-size: 25px;
+    }
+    &-line {
+      position: absolute;
+      width: 100px;
     }
   }
 }
