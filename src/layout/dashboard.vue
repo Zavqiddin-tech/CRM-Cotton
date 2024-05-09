@@ -26,8 +26,10 @@
       >
         <input
           type="text"
-          class="dashboard__input w-80 rounded-3xl px-3 py-2"
-          placeholder="Qidiriv"
+          v-model="search"
+          @input="onInput()"
+          class="dashboard__input w-80 rounded-3xl px-3 py-2 text-black border border-violet-500 focus:border-2"
+          placeholder="Qidiruv"
         />
         <div
           class="akkaunt flex justify-center items-center text-xl text-white font-bold bg-blue-400"
@@ -49,11 +51,29 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import sidebarVue from "@/dashboard/components/sidebar/sidebar.vue";
 import cookies from "vue-cookies";
 
+
 import { useAuthStore } from "@/stores/admin/auth/auth";
+import { useWorkersStore } from "@/stores/data/workers/workers";
 const { checkUser } = useAuthStore();
+const {filtered} = useWorkersStore()
+const { workers } = storeToRefs(useWorkersStore());
+
+const arr = ref([])
+arr.value = workers.value
+const search = ref('')
+const onInput = () => {
+   arr.value = workers.value.filter(item => {
+    if (item.firstName.toLowerCase().indexOf(search.value.toLowerCase()) !== -1) {
+      return item
+    } 
+   })
+   filtered(arr.value)
+}
 
 const logout = () => {
   if (confirm("Tizimdan chiqish ❗")) {
@@ -107,10 +127,9 @@ const logout = () => {
     padding: 20px;
   }
   &__input {
-    color: #fff;
     background-color: rgba(255, 255, 255, 0.212);
     &::placeholder {
-      color: #fff;
+      color: #333;
     }
   }
 }

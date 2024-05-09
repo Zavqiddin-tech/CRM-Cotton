@@ -71,9 +71,15 @@ export const useWorkersStore = defineStore("workers", () => {
       });
   };
 
+
+  const filtered = (val) => {
+    openWorkers.value = [...val]
+  }
+
   return {
     workers,
     openWorkers,
+    filtered,
     get_all_workers,
     get_worker,
     new_worker,

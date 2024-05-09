@@ -14,13 +14,22 @@
       </div>
       <div class="mt-5 mb-7">
         <label for="password" class="text-sm font-light">password</label>
-        <input
-          v-model="user.password"
-          type="text"
-          class="block w-full px-1 py-1 border border-1 border-gray-300 rounded-md focus:border-2 focus:border-violet-300"
-          id="password"
-          autocomplete="off"
-        />
+        <div
+          class="flex items-center border border-1 border-gray-300 rounded-md focus:border-2 focus:border-violet-300"
+        >
+          <input
+            v-model="user.password"
+            type="password"
+            class="block w-full px-1 py-1 border border-1 border-gray-300 rounded-md focus:border-2 focus:border-violet-300"
+            id="password"
+            autocomplete="off"
+          />
+          <img
+            class="eye"
+            src="@/assets/image/eye-open.png"
+            alt=""
+          />
+        </div>
       </div>
       <div>
         <button @click="submit()" class="btn w-full py-2 rounded-md text-white">
@@ -43,7 +52,7 @@ const submit = () => {
   if (user.value.email && user.value.password) {
     login(user.value);
   } else {
-    alert("Barcha maydonni to'ldiring")
+    alert("Barcha maydonni to'ldiring");
     return false;
   }
 };
@@ -73,5 +82,7 @@ const submit = () => {
     opacity: 0.8;
   }
 }
+.eye {
+  width: 22px;
+}
 </style>
-@/stores/admin/auth/auth
