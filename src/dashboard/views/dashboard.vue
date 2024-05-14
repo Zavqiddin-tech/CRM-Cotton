@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1 class="font-3xl">Dashboard</h1>
-    <div class="cards flex gap-10">
-      <div class="card w-1/3 p-5">
+    <div class="cards flex flex-wrap gap-10 sm:justify-between lg:flex-nowrap">
+      <div class="card p-5 w-full sm:w-6/12 lg:w-1/3">
         <div class="card-top">
           <i class="text-2xl fa-solid fa-user-group"></i>
           <div class="card-title text-xl font-medium">Jami ishchi</div>
@@ -12,7 +12,7 @@
         </div>
         <img src="@/assets/image/illustration/1.svg" alt="" />
       </div>
-      <div class="card w-1/3 p-5">
+      <div class="card p-5 w-full sm:w-5/12 lg:w-1/3">
         <div class="card-top">
           <i class="text-2xl fa-solid fa-cloud"></i>
           <div class="card-title text-xl font-medium">Umumiy paxta</div>
@@ -22,7 +22,7 @@
         </div>
         <img src="@/assets/image/illustration/2.svg" alt="" />
       </div>
-      <div class="card w-1/3 p-5">
+      <div class="card p-5 w-full sm:w-full lg:w-1/3">
         <div class="card-top">
           <i class="text-2xl fa-solid fa-square-poll-vertical"></i>
           <div class="card-title text-xl font-medium">Bugungi natija</div>
@@ -90,7 +90,7 @@ onMounted(() => {
   position: relative;
   border-radius: 10px;
   transition: 0.25s;
-  box-shadow: -10px -10px 30px #f1f1f1, 10px 10px 30px #d6d6d6;
+  box-shadow: -5px -5px 10px #f1f1f1, 5px 5px 10px #d6d6d6;
   &:hover {
     transform: translateY(-15px);
     box-shadow: 0px 10px 30px #7a7a7a;

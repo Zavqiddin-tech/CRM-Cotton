@@ -15,18 +15,27 @@
       <div class="mt-5 mb-7">
         <label for="password" class="text-sm font-light">password</label>
         <div
-          class="flex items-center border border-1 border-gray-300 rounded-md focus:border-2 focus:border-violet-300"
+          class="flex relative items-center "
         >
           <input
             v-model="user.password"
-            type="password"
+            :type="`${toggle ? 'password' : 'text'}`"
             class="block w-full px-1 py-1 border border-1 border-gray-300 rounded-md focus:border-2 focus:border-violet-300"
             id="password"
             autocomplete="off"
           />
           <img
-            class="eye"
+            v-if="toggle"
+            class="eye absolute right-1"
+            @click="eyeToggle()"
             src="@/assets/image/eye-open.png"
+            alt=""
+          />
+          <img
+          v-else
+            class="eye absolute right-1"
+            @click="eyeToggle()"
+            src="@/assets/image/eye-hide.png"
             alt=""
           />
         </div>
@@ -47,6 +56,10 @@ import { useAuthStore } from "@/stores/admin/auth/auth";
 const { login } = useAuthStore();
 
 const user = ref({});
+const toggle = ref(true)
+const eyeToggle = () => {
+  toggle.value = !toggle.value
+}
 
 const submit = () => {
   if (user.value.email && user.value.password) {

@@ -5,12 +5,10 @@ import { useTokenStore } from "@/stores/admin/auth/token";
 import cookies from "vue-cookies";
 import router from "@/router";
 
-
-
 export const useAuthStore = defineStore("auth", () => {
   const api = useApiStore();
-  const tokenStore = useTokenStore()
-  
+  const tokenStore = useTokenStore();
+
   const login = async (data) => {
     await api
       .postAxios({
@@ -20,28 +18,39 @@ export const useAuthStore = defineStore("auth", () => {
       .then((res) => {
         console.log(res.data);
         if (res.data.token) {
-          tokenStore.setToken(res.data.token)
-          tokenStore.setUser(res.data.user)
-          router.push('/dashboard')
-
+          tokenStore.setToken(res.data.token);
+          tokenStore.setUser(res.data.user);
+          router.push("/dashboard");
         }
       });
   };
 
+  const checkAdmin = async () => {
+    if (cookies.isKey("cotton-token")) {
+      tokenStore.setToken(cookies.get("cotton-token"));
+    }
+    await api.getAxios({
+      url: "auth/checkadmin",
+    }).then(res => {
+      console.log(res);
+    })
+  };
+
   const checkUser = async () => {
-    if (cookies.isKey('cotton-token')) {
-        tokenStore.setToken(cookies.get('cotton-token'))
+    if (cookies.isKey("cotton-token")) {
+      tokenStore.setToken(cookies.get("cotton-token"));
     }
     let res = await api.getAxios({
-        url: "auth/checkuser"
-    })
+      url: "auth/checkuser",
+    });
     if (res.status == 200) {
-        console.log('success');
+      console.log("success");
     }
-  }
+  };
 
   return {
     login,
-    checkUser
+    checkAdmin,
+    checkUser,
   };
 });

@@ -16,6 +16,10 @@ const router = createRouter({
               path: '/workers/:id',
               component: ()=> import('@/dashboard/views/more/workerDetail.vue'),
               meta: {secure: true}
+            },
+            {
+              path: '/regis',
+              component: ()=> import('@/dashboard/views/regis.vue'),
             }
           ]
       },
@@ -28,6 +32,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.path === "/regis") {
+    useAuthStore().checkAdmin()
+    next()
+  }
   if (to.meta.secure) {
     useAuthStore().checkUser()
     next()
