@@ -4,11 +4,13 @@ import axios from "axios";
 import router from "@/router";
 import { useTokenStore } from "@/stores/admin/auth/token";
 import { useUrlStore } from "@/stores/admin/api/url";
+// shadcn ui
+import { toast } from "vue-sonner";
+// shadcn ui
 
 export const useApiStore = defineStore("api", () => {
   const { url } = storeToRefs(useUrlStore());
   const tokenStore = useTokenStore();
-
 
   const getAxios = (payload) => {
     return axios
@@ -17,7 +19,12 @@ export const useApiStore = defineStore("api", () => {
       })
       .catch((e) => {
         if (e.response.status == 401) {
-          alert("Kirish man etiladi")
+          toast("Log in", {
+            description: "You are not logged in",
+            action: {
+              label: "Undo",
+            },
+          });
           router.push("/login");
           return false;
         }
@@ -32,7 +39,7 @@ export const useApiStore = defineStore("api", () => {
       })
       .catch((e) => {
         if (e.response.status == 401) {
-          alert("Xatolik")
+          alert("Xatolik");
         }
         console.log(e.message);
       });
@@ -41,10 +48,10 @@ export const useApiStore = defineStore("api", () => {
     console.log(payload);
     let formData = new FormData();
     formData.append("file", payload.data.file);
-    formData.append("firstName", payload.data.firstName)
-    formData.append("lastName", payload.data.lastName)
-    formData.append("date", payload.data.date)
-    formData.append("verify", payload.data.verify)
+    formData.append("firstName", payload.data.firstName);
+    formData.append("lastName", payload.data.lastName);
+    formData.append("date", payload.data.date);
+    formData.append("verify", payload.data.verify);
     return axios
       .post(`${url.value}/${payload.url}`, formData, {
         headers: { Authorization: `Bearer ${tokenStore.token}` },
@@ -65,21 +72,22 @@ export const useApiStore = defineStore("api", () => {
   };
   const putAxiosFile = (payload) => {
     console.log(payload);
-    let formData = new FormData()
-    formData.append("file", payload.data.file)
-    formData.append("firstName", payload.data.firstName)
-    formData.append("lastName", payload.data.lastName)
-    formData.append("date", payload.data.date)
-    formData.append("verify", payload.data.verify)
-    formData.append("img", payload.data.img)
-    formData.append("user", payload.data.user)
-    return axios.put(`${url.value}/${payload.url}`, formData, {
-      headers: { Authorization: `Bearer ${tokenStore.token}` },
-    }).catch((e)=> {
-      console.log(e.message);
-    })
-  }
-
+    let formData = new FormData();
+    formData.append("file", payload.data.file);
+    formData.append("firstName", payload.data.firstName);
+    formData.append("lastName", payload.data.lastName);
+    formData.append("date", payload.data.date);
+    formData.append("verify", payload.data.verify);
+    formData.append("img", payload.data.img);
+    formData.append("user", payload.data.user);
+    return axios
+      .put(`${url.value}/${payload.url}`, formData, {
+        headers: { Authorization: `Bearer ${tokenStore.token}` },
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+  };
 
   const deleteAxios = (payload) => {
     return axios

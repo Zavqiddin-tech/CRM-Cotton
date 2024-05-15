@@ -1,7 +1,16 @@
 <template>
   <div class="auth">
     <form @submit.prevent="" class="auth-form px-4 py-2 rounded-md">
-      <div class="title text-center text-2xl font-semibold">Kirish</div>
+      <div class="title text-center text-2xl font-semibold">Log in</div>
+      <Alert v-if="alertToggle">
+        <div class="flex gap-3">
+          <i class="fa-solid fa-chevron-right">_</i>
+          <div>
+            <AlertTitle>Please!</AlertTitle>
+            <AlertDescription> Enter login and password </AlertDescription>
+          </div>
+        </div>
+      </Alert>
       <div>
         <label for="login" class="text-sm font-light">login</label>
         <input
@@ -14,9 +23,7 @@
       </div>
       <div class="mt-5 mb-7">
         <label for="password" class="text-sm font-light">password</label>
-        <div
-          class="flex relative items-center "
-        >
+        <div class="flex relative items-center">
           <input
             v-model="user.password"
             :type="`${toggle ? 'password' : 'text'}`"
@@ -32,7 +39,7 @@
             alt=""
           />
           <img
-          v-else
+            v-else
             class="eye absolute right-1"
             @click="eyeToggle()"
             src="@/assets/image/eye-hide.png"
@@ -51,21 +58,27 @@
 
 <script setup>
 import { ref } from "vue";
-import { useAuthStore } from "@/stores/admin/auth/auth";
+//shadcn ui
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+//shadcn ui
 
+const alertToggle = ref(false)
+
+import { useAuthStore } from "@/stores/admin/auth/auth";
 const { login } = useAuthStore();
 
 const user = ref({});
-const toggle = ref(true)
+const toggle = ref(true);
 const eyeToggle = () => {
-  toggle.value = !toggle.value
-}
+  toggle.value = !toggle.value;
+};
 
 const submit = () => {
   if (user.value.email && user.value.password) {
     login(user.value);
+    alertToggle.value = false
   } else {
-    alert("Barcha maydonni to'ldiring");
+    alertToggle.value = true
     return false;
   }
 };

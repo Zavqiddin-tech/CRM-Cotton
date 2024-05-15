@@ -12,11 +12,15 @@
   </div>
   <regisDialog />
   <farmersTable />
+  <Button @click="show()">Click me</Button>
 </template>
 
 <script setup>
 import { onMounted } from "vue";
-import { storeToRefs } from "pinia";
+// Shadcn Ui
+import { Button } from "@/components/ui/button";
+import { toast } from "vue-sonner";
+// Shadcn Ui
 
 import regisDialog from "@/components/dialog/regisDialog.vue";
 import farmersTable from "@/dashboard/components/table/farmersTable.vue";
@@ -24,6 +28,15 @@ import { useDialogToggle } from "@/stores/dialog/dialogToggle";
 import { useFarmerStore } from "@/stores/data/farmer/farmer";
 const { setFormToggle } = useDialogToggle();
 const { getAllFarmers } = useFarmerStore();
+
+const show = () => {
+  toast("Event has been created", {
+    description: "ishladi juda yaxshi",
+    action: {
+      label: "Undo",
+    },
+  });
+};
 
 onMounted(() => {
   getAllFarmers();

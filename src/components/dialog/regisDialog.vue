@@ -116,12 +116,12 @@
                     </div>
                     <!-- Password -->
                     <label
-                      v-if="editFormToggle !== true"
+                      
                       for="password"
                       class="block mt-4 text-lg font-medium text-gray-700"
                       >password</label
                     >
-                    <div class="mt-1" v-if="editFormToggle !== true">
+                    <div class="mt-1">
                       <input
                         type="text"
                         id="password"
@@ -196,6 +196,7 @@ const handleClose = () => {
 watch(editFormToggle, async () => {
   if (editFormToggle.value) {
     await getOneFarmer(editId.value).then((res) => {
+      console.log(res.data);
       person.value = { ...res.data };
     });
   }
