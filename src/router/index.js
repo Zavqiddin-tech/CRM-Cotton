@@ -34,11 +34,9 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.path === "/regis") {
     useAuthStore().checkAdmin()
-    next()
   }
   if (to.meta.secure) {
     useAuthStore().checkUser()
-    next()
   }
   next()
 })

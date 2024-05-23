@@ -21,14 +21,13 @@ export const useApiStore = defineStore("api", () => {
         if (e.response.status == 401) {
           toast("Log in", {
             description: "You are not logged in",
-            action: {
-              label: "Undo",
-            },
+            cancel: {
+              label: 'cancel'
+            }
           });
           router.push("/login");
           return false;
         }
-        console.log(e.message);
       });
   };
 

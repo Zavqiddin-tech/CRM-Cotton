@@ -5,6 +5,10 @@ import { useTokenStore } from "@/stores/admin/auth/token";
 import cookies from "vue-cookies";
 import router from "@/router";
 
+// shadcn ui
+import { toast } from "vue-sonner";
+// shadcn ui
+
 export const useAuthStore = defineStore("auth", () => {
   const api = useApiStore();
   const tokenStore = useTokenStore();
@@ -21,6 +25,14 @@ export const useAuthStore = defineStore("auth", () => {
           tokenStore.setToken(res.data.token);
           tokenStore.setUser(res.data.user);
           router.push("/dashboard");
+        } 
+        else if (res.data.message) {
+          toast("Error!", {
+            description: res.data.message,
+            cancel: {
+              label: 'cancel'
+            }
+          });
         }
       });
   };

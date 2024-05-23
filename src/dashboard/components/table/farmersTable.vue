@@ -60,10 +60,27 @@
                 @click="edit(item._id)"
                 class="bx bxs-pencil hover:text-blue-400"
               ></i>
-              <i
-                @click="del(item._id)"
-                class="bx bxs-trash-alt hover:text-red-400"
-              ></i>
+              <AlertDialog>
+                <AlertDialogTrigger as-child
+                  ><i class="bx bxs-trash-alt hover:text-red-400"></i>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle
+                      >Delete!</AlertDialogTitle
+                    >
+                    <AlertDialogDescription>
+                      do you want to delete this farm ?
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction @click="del(item._id)"
+                      >Continue</AlertDialogAction
+                    >
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </td>
         </tr>
@@ -82,16 +99,28 @@ const { farmers } = storeToRefs(useFarmerStore());
 const { changeStatusFarmer, updateFarmer, deleteFarmer } = useFarmerStore();
 const { setFormToggle, setEditFormToggle, setEditId } = useDialogToggle();
 
-
+// shadcn ui
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+// shadcn ui
 
 const changeStatus = (id) => {
-  changeStatusFarmer(id)
-}
+  changeStatusFarmer(id);
+};
 const edit = (id) => {
-  setFormToggle(true)
-  setEditFormToggle(true)
-  setEditId(id)
-}
+  setFormToggle(true);
+  setEditFormToggle(true);
+  setEditId(id);
+};
 const del = (id) => {
   deleteFarmer(id);
 };

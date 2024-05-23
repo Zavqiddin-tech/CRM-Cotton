@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="font-3xl">Dashboard</h1>
+    <div class="text-xl mb-5">Dashboard</div>
     <div class="cards flex flex-wrap gap-10 sm:justify-between lg:flex-nowrap">
       <div class="card p-5 w-full sm:w-6/12 lg:w-1/3">
         <div class="card-top">
@@ -39,6 +39,7 @@
 <script setup>
 import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
+
 // Store
 import { useWorkersStore } from "@/stores/data/workers/workers";
 const { workers } = storeToRefs(useWorkersStore());
@@ -55,7 +56,6 @@ const allKg = () => {
   });
   return max;
 };
-
 const todayKg = () => {
   let max = 0;
   let date = new Date();
@@ -78,7 +78,6 @@ const todayKg = () => {
 
   return max;
 };
-
 onMounted(() => {
   get_all_workers();
 });

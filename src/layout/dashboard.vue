@@ -11,12 +11,29 @@
           <i class="bx bx-cog"></i>
           <div class="menu-bottom__text">Settings</div>
         </div>
-        <div
-          @click="logout()"
-          class="menu-bottom__item flex items-center gap-2"
-        >
-          <i class="bx bx-log-in"></i>
-          <div class="menu-bottom__text">Log out</div>
+        <div class="menu-bottom__item">
+          <AlertDialog>
+            <AlertDialogTrigger as-child>
+              <div class="flex items-center gap-2">
+                <i class="bx bx-log-in"></i>
+                <div class="menu-bottom__text">Log out</div>
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Sign out!</AlertDialogTitle>
+                <AlertDialogDescription>
+                  do you want to log out? ?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction @click="logout()"
+                  >Continue</AlertDialogAction
+                >
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </div>
@@ -42,10 +59,18 @@
   </div>
   <div class="square">
     <div class="box box-1">
-      <img class="w-full object-cover" src="@/assets/image/illustration/gr-2.png" alt="" />
+      <img
+        class="w-full object-cover"
+        src="@/assets/image/illustration/gr-2.png"
+        alt=""
+      />
     </div>
     <div class="box box-2">
-      <img class="w-full object-cover" src="@/assets/image/illustration/gr-1.png" alt="" />
+      <img
+        class="w-full object-cover"
+        src="@/assets/image/illustration/gr-1.png"
+        alt=""
+      />
     </div>
   </div>
 </template>
@@ -55,32 +80,44 @@ import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import sidebarVue from "@/dashboard/components/sidebar/sidebar.vue";
 import cookies from "vue-cookies";
-
+// shadcn ui
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+// shadcn ui
 
 import { useAuthStore } from "@/stores/admin/auth/auth";
 import { useWorkersStore } from "@/stores/data/workers/workers";
 const { checkUser } = useAuthStore();
-const {filtered} = useWorkersStore()
+const { filtered } = useWorkersStore();
 const { workers } = storeToRefs(useWorkersStore());
 
-const arr = ref([])
-arr.value = workers.value
-const search = ref('')
+const arr = ref([]);
+arr.value = workers.value;
+const search = ref("");
 const onInput = () => {
-   arr.value = workers.value.filter(item => {
-    if (item.firstName.toLowerCase().indexOf(search.value.toLowerCase()) !== -1) {
-      return item
-    } 
-   })
-   filtered(arr.value)
-}
+  arr.value = workers.value.filter((item) => {
+    if (
+      item.firstName.toLowerCase().indexOf(search.value.toLowerCase()) !== -1
+    ) {
+      return item;
+    }
+  });
+  filtered(arr.value);
+};
 
 const logout = () => {
-  if (confirm("Tizimdan chiqish ❗")) {
-    cookies.remove("cotton-token");
-    checkUser();
-    location.reload();
-  }
+  cookies.remove("cotton-token");
+  checkUser();
+  location.reload();
 };
 </script>
 

@@ -5,6 +5,8 @@ import { useApiStore } from "@/stores/admin/api/api";
 export const useWorkersStore = defineStore("workers", () => {
   const workers = ref([]);
   const openWorkers = ref([]);
+  const calendarData = ref([])
+  const chartData = ref([])
 
   const api = useApiStore();
 
@@ -71,6 +73,19 @@ export const useWorkersStore = defineStore("workers", () => {
       });
   };
 
+  // kalendar bo'yicha kg larni topib beradi
+  const calendarWork = async (data) => {
+    await api.postAxios({url: 'workers/calendar-work', data}).then(res => {
+      calendarData.value = [...res.data]
+    })
+  }
+  const getAllWorks = async () => {
+    let res = await api.getAxios({url: "workers/calendarDto"})
+    if (res.status == 200) {
+      chartData.value = [...res.data]
+    }
+  };
+
 
   const filtered = (val) => {
     openWorkers.value = [...val]
@@ -79,11 +94,15 @@ export const useWorkersStore = defineStore("workers", () => {
   return {
     workers,
     openWorkers,
+    calendarData,
+    chartData,
     filtered,
     get_all_workers,
     get_worker,
     new_worker,
     update_worker,
     delete_worker,
+    calendarWork,
+    getAllWorks
   };
 });

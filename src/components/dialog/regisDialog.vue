@@ -116,7 +116,6 @@
                     </div>
                     <!-- Password -->
                     <label
-                      
                       for="password"
                       class="block mt-4 text-lg font-medium text-gray-700"
                       >password</label
@@ -238,6 +237,17 @@ const add = () => {
     } else (validPass.value = true), (warningPass.value = "kamida 8 ta belgi");
   } else (validPass.value = true), (warningPass.value = "parol kiriting");
 
+  if (editFormToggle.value) {
+    if (person.value.password) {
+      if (person.value.password.length >= 8) {
+        validPass.value = false;
+      } else
+        (validPass.value = true), (warningPass.value = "kamida 8 ta belgi");
+    } else {
+      validPass.value = false
+    }
+  }
+
   if (
     !validFirst.value &&
     !validLast.value &&
@@ -247,7 +257,7 @@ const add = () => {
   ) {
     if (editFormToggle.value) {
       updateFarmer(person.value);
-      handleClose()
+      handleClose();
     } else {
       newFarmer({
         ...person.value,
